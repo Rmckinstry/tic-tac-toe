@@ -1,0 +1,18 @@
+#container{
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+}
+
+.square{
+    height: 100px;
+    width: 100px;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
+.square:hover{
+    cursor: pointer;
+    background-color: rgb(255, 126, 126);
+}
