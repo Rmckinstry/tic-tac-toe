@@ -16,3 +16,11 @@
     cursor: pointer;
     background-color: rgb(255, 126, 126);
 }
+
+.played{
+    background-color: lightgreen;
+}
+
+.played:hover{
+    background-color: darkgreen;
+}

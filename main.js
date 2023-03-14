@@ -1,10 +1,12 @@
+// player factory
+const playerFactory = (name, marker) =>{
+    return {name, marker}
+}
+
 // gameboard module
 const gameboard = (() =>{
-    let board = ['X','0','X','X','0','X','X','0','X',];
-    return {board};
-})();
+    let board = ['X','0','X','0','X','0','X','0','X'];
 
-const gameController = (()=>{
     function initialize(){
         let gameContainer = document.getElementById("container")
         
@@ -53,14 +55,23 @@ const gameController = (()=>{
         gameContainer.appendChild(squareSeven);
         gameContainer.appendChild(squareEight);
         gameContainer.appendChild(squareNine);
+
+        gameContainer.childNodes.forEach((element, i) => {
+            element.textContent = getBoardValue(i)
+            element.addEventListener('click',()=>{
+                element.classList.add("played")
+            })
+        });
     }
 
-    return{initialize}
+    function getBoardValue(index){
+        return board[index]
+    }
+    return {initialize, getBoardValue};
+})();
+
+const gameController = (()=>{
+    return{}
 })()
 
-// player factory
-const playerFactory = (name) =>{
-    return {name}
-}
-
-gameController.initialize();
+gameboard.initialize();
