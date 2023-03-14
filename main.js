@@ -1,118 +1,145 @@
 // player factory
-const playerFactory = (name, marker, playerID) =>{
-    return {name, marker, playerID}
-}
+const playerFactory = (name, marker, playerID) => {
+  return { name, marker, playerID };
+};
 
 // gameboard module
-const gameboard = (() =>{
-    let board = ['','','','','','','','','',];
+const gameboard = (() => {
+  let board = ["", "", "", "", "", "", "", "", ""];
 
-    function initializeBoard(){
-        let gameContainer = document.getElementById("container")
-        
-        const squareOne = document.createElement('div');
-        squareOne.classList.add("square");
-        squareOne.setAttribute("id", "squareOne")
+  function initializeBoard() {
+    let gameContainer = document.getElementById("container");
 
-        const squareTwo = document.createElement('div');
-        squareTwo.classList.add("square");
-        squareTwo.setAttribute("id", "squareTwo")
+    const squareOne = document.createElement("div");
+    squareOne.classList.add("square");
+    squareOne.setAttribute("id", "squareOne");
 
-        const squareThree = document.createElement('div');
-        squareThree.classList.add("square");
-        squareThree.setAttribute("id", "squareThree")
+    const squareTwo = document.createElement("div");
+    squareTwo.classList.add("square");
+    squareTwo.setAttribute("id", "squareTwo");
 
-        const squareFour = document.createElement('div');
-        squareFour.classList.add("square");
-        squareFour.setAttribute("id", "squareFour")
+    const squareThree = document.createElement("div");
+    squareThree.classList.add("square");
+    squareThree.setAttribute("id", "squareThree");
 
-        const squareFive = document.createElement('div');
-        squareFive.classList.add("square");
-        squareFive.setAttribute("id", "squareFive")
+    const squareFour = document.createElement("div");
+    squareFour.classList.add("square");
+    squareFour.setAttribute("id", "squareFour");
 
-        const squareSix = document.createElement('div');
-        squareSix.classList.add("square");
-        squareSix.setAttribute("id", "squareSix")
+    const squareFive = document.createElement("div");
+    squareFive.classList.add("square");
+    squareFive.setAttribute("id", "squareFive");
 
-        const squareSeven = document.createElement('div');
-        squareSeven.classList.add("square");
-        squareSeven.setAttribute("id", "squareSeven")
+    const squareSix = document.createElement("div");
+    squareSix.classList.add("square");
+    squareSix.setAttribute("id", "squareSix");
 
-        const squareEight = document.createElement('div');
-        squareEight.classList.add("square");
-        squareEight.setAttribute("id", "squareEight")
+    const squareSeven = document.createElement("div");
+    squareSeven.classList.add("square");
+    squareSeven.setAttribute("id", "squareSeven");
 
-        const squareNine = document.createElement('div');
-        squareNine.classList.add("square");
-        squareNine.setAttribute("id", "squareNine")
+    const squareEight = document.createElement("div");
+    squareEight.classList.add("square");
+    squareEight.setAttribute("id", "squareEight");
 
-        gameContainer.appendChild(squareOne);
-        gameContainer.appendChild(squareTwo);
-        gameContainer.appendChild(squareThree);
-        gameContainer.appendChild(squareFour);
-        gameContainer.appendChild(squareFive);
-        gameContainer.appendChild(squareSix);
-        gameContainer.appendChild(squareSeven);
-        gameContainer.appendChild(squareEight);
-        gameContainer.appendChild(squareNine);
+    const squareNine = document.createElement("div");
+    squareNine.classList.add("square");
+    squareNine.setAttribute("id", "squareNine");
 
-        gameContainer.childNodes.forEach((element, i) => {
-            element.addEventListener('click',()=>{
-                // if index of gameboard is empty, assign the value to the gameboard and visually represent
-                if (getBoardValue(i) === "") {
-                    setBoardValue(i, gameController.getCurrentPlayer()["marker"])
-                    element.textContent = getBoardValue(i)
-                    element.classList.add("played")
+    gameContainer.appendChild(squareOne);
+    gameContainer.appendChild(squareTwo);
+    gameContainer.appendChild(squareThree);
+    gameContainer.appendChild(squareFour);
+    gameContainer.appendChild(squareFive);
+    gameContainer.appendChild(squareSix);
+    gameContainer.appendChild(squareSeven);
+    gameContainer.appendChild(squareEight);
+    gameContainer.appendChild(squareNine);
 
-                    // let game controller know when a square has succesfully been clicked
-                    gameController.handleClick();
-                }
-                
-            })
-        });
-    }
+    gameContainer.childNodes.forEach((element, i) => {
+      element.addEventListener("click", () => {
+        // if index of gameboard is empty, assign the value to the gameboard and visually represent
+        if (getBoardValue(i) === "") {
+          setBoardValue(i, gameController.getCurrentPlayer()["marker"]);
+          element.textContent = getBoardValue(i);
+          element.classList.add("played");
 
-    function getBoardValue(index){
-        return board[index]
-    }
+          // let game controller know when a square has succesfully been clicked
+          gameController.handleClick(board);
+        }
+      });
+    });
+  }
 
-    function setBoardValue(index, value){
-        board[index] = value;
-        console.log(board)
-    }
-    return {initializeBoard, getBoardValue};
+  function getBoardValue(index) {
+    return board[index];
+  }
+
+  function setBoardValue(index, value) {
+    board[index] = value;
+    // console.log(board)
+  }
+  return { initializeBoard, getBoardValue };
 })();
 
-const gameController = (()=>{
+const gameController = (() => {
+  let players = [];
+  let currentPlayer = null;
 
-    let players = [];
-    let currentPlayer = null;
+//   winning combinations (values are index based so for a real human grid +1 on the number)
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
-    function setPlayers(player){
-        // logic check to prevent adding more than 2 users
-        if (players.length < 2) {
-            players.push(player) 
-        }
+  function setPlayers(player) {
+    // logic check to prevent adding more than 2 users
+    if (players.length < 2) {
+      players.push(player);
     }
+  }
 
-    function getCurrentPlayer(){
-        return currentPlayer
-    }
+  function getCurrentPlayer() {
+    return currentPlayer;
+  }
 
-    function startGame(){
-        currentPlayer = players[0];
-        console.log(currentPlayer)
-    }
+  function startGame() {
+    currentPlayer = players[0];
+  }
 
-    function handleClick(){
-        currentPlayer = currentPlayer.playerID == 1? players[1]: players[0]
-    }
-    return{setPlayers, getCurrentPlayer, startGame, handleClick}
-})()
+  function handleClick(board) {
+    let winDetected = checkWinStatus(board, winningCombinations);
+    // checks playerID of current player, assigns to the other player in arrays
+    currentPlayer = currentPlayer.playerID == 1 ? players[1] : players[0];
 
-let playerOne = playerFactory('Ryan', 'X', 1);
+    return winDetected;
+  }
+
+  function checkWinStatus(currentBoard, winningCombinations) {
+    const checkCombo = (combo) => {
+      // checks if the value on the current board at index of the spot of a certain winning combo is the marker of the curent player
+      return (
+        currentBoard[combo[0]] === currentPlayer.marker &&
+        currentBoard[combo[1]] === currentPlayer.marker &&
+        currentBoard[combo[2]] === currentPlayer.marker
+      );
+    };
+
+    console.log(winningCombinations.some(checkCombo));
+  }
+
+  return { setPlayers, getCurrentPlayer, startGame, handleClick };
+})();
+
+let playerOne = playerFactory("Ryan", "X", 1);
 gameController.setPlayers(playerOne);
-let playerTwo = playerFactory('Bob', 'O', 2);
+let playerTwo = playerFactory("Bob", "O", 2);
 gameController.setPlayers(playerTwo);
 
 gameController.startGame();
