@@ -3,6 +3,11 @@
     grid-template-columns: 100px 100px 100px;
 }
 
+#players-container{
+    display: flex;
+    gap: 25px;
+}
+
 .square{
     height: 100px;
     width: 100px;
@@ -23,4 +28,8 @@
 
 .played:hover{
     background-color: darkgreen;
+}
+
+.player-title{
+    font-weight: bold;
 }

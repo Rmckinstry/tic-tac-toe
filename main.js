@@ -8,7 +8,15 @@ const gameboard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
   function initializeBoard() {
-    let gameContainer = document.getElementById("container");
+    const gameContainer = document.getElementById("container");
+    const infoContainer = document.getElementById("info-container");
+
+    const playerOneName = document.getElementById('player-one-name');
+    const playerTwoName = document.getElementById('player-two-name');
+
+    playerOneName.textContent = gameController.getPlayers()[0].name;
+    playerTwoName.textContent = gameController.getPlayers()[1].name;
+
 
     const squareOne = document.createElement("div");
     squareOne.classList.add("square");
@@ -65,7 +73,10 @@ const gameboard = (() => {
           element.classList.add("played");
 
           // let game controller know when a square has succesfully been clicked
-          gameController.handleClick(board);
+          let gameWon = gameController.handleClick(board);
+
+          if (gameWon) {
+          }
         }
       });
     });
@@ -77,7 +88,6 @@ const gameboard = (() => {
 
   function setBoardValue(index, value) {
     board[index] = value;
-    // console.log(board)
   }
   return { initializeBoard, getBoardValue };
 })();
@@ -105,6 +115,10 @@ const gameController = (() => {
     }
   }
 
+  function getPlayers(){
+    return players
+  }
+
   function getCurrentPlayer() {
     return currentPlayer;
   }
@@ -115,8 +129,15 @@ const gameController = (() => {
 
   function handleClick(board) {
     let winDetected = checkWinStatus(board, winningCombinations);
-    // checks playerID of current player, assigns to the other player in arrays
-    currentPlayer = currentPlayer.playerID == 1 ? players[1] : players[0];
+
+    console.log(winDetected);
+    if (winDetected) {
+        console.log(`${currentPlayer.name} won!`)
+    }
+    else{
+      // checks playerID of current player, assigns to the other player in arrays
+        currentPlayer = currentPlayer.playerID == 1 ? players[1] : players[0];  
+    }
 
     return winDetected;
   }
@@ -131,10 +152,10 @@ const gameController = (() => {
       );
     };
 
-    console.log(winningCombinations.some(checkCombo));
+    return (winningCombinations.some(checkCombo));
   }
 
-  return { setPlayers, getCurrentPlayer, startGame, handleClick };
+  return { setPlayers, getPlayers, getCurrentPlayer, startGame, handleClick };
 })();
 
 let playerOne = playerFactory("Ryan", "X", 1);
