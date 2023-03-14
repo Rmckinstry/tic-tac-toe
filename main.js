@@ -1,13 +1,13 @@
 // player factory
-const playerFactory = (name, marker) =>{
-    return {name, marker}
+const playerFactory = (name, marker, playerID) =>{
+    return {name, marker, playerID}
 }
 
 // gameboard module
 const gameboard = (() =>{
     let board = ['','','','','','','','','',];
 
-    function initialize(){
+    function initializeBoard(){
         let gameContainer = document.getElementById("container")
         
         const squareOne = document.createElement('div');
@@ -60,9 +60,12 @@ const gameboard = (() =>{
             element.addEventListener('click',()=>{
                 // if index of gameboard is empty, assign the value to the gameboard and visually represent
                 if (getBoardValue(i) === "") {
-                    setBoardValue(i,'X')
+                    setBoardValue(i, gameController.getCurrentPlayer()["marker"])
                     element.textContent = getBoardValue(i)
                     element.classList.add("played")
+
+                    // let game controller know when a square has succesfully been clicked
+                    gameController.handleClick();
                 }
                 
             })
@@ -75,26 +78,42 @@ const gameboard = (() =>{
 
     function setBoardValue(index, value){
         board[index] = value;
+        console.log(board)
     }
-    return {initialize, getBoardValue};
+    return {initializeBoard, getBoardValue};
 })();
 
 const gameController = (()=>{
 
-    players = [];
+    let players = [];
+    let currentPlayer = null;
 
     function setPlayers(player){
-        players.push(player)
+        // logic check to prevent adding more than 2 users
+        if (players.length < 2) {
+            players.push(player) 
+        }
     }
-    function handleClick(){
 
+    function getCurrentPlayer(){
+        return currentPlayer
     }
-    return{setPlayers}
+
+    function startGame(){
+        currentPlayer = players[0];
+        console.log(currentPlayer)
+    }
+
+    function handleClick(){
+        currentPlayer = currentPlayer.playerID == 1? players[1]: players[0]
+    }
+    return{setPlayers, getCurrentPlayer, startGame, handleClick}
 })()
 
-playerOne = playerFactory('Ryan', 'X');
+let playerOne = playerFactory('Ryan', 'X', 1);
 gameController.setPlayers(playerOne);
-playerTwo = playerFactory('Bob', 'O');
+let playerTwo = playerFactory('Bob', 'O', 2);
 gameController.setPlayers(playerTwo);
 
-gameboard.initialize();
+gameController.startGame();
+gameboard.initializeBoard();
