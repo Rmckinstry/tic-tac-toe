@@ -5,7 +5,7 @@ const playerFactory = (name, marker) =>{
 
 // gameboard module
 const gameboard = (() =>{
-    let board = ['X','0','X','0','X','0','X','0','X'];
+    let board = ['','','','','','','','','',];
 
     function initialize(){
         let gameContainer = document.getElementById("container")
@@ -57,9 +57,14 @@ const gameboard = (() =>{
         gameContainer.appendChild(squareNine);
 
         gameContainer.childNodes.forEach((element, i) => {
-            element.textContent = getBoardValue(i)
             element.addEventListener('click',()=>{
-                element.classList.add("played")
+                // if index of gameboard is empty, assign the value to the gameboard and visually represent
+                if (getBoardValue(i) === "") {
+                    setBoardValue(i,'X')
+                    element.textContent = getBoardValue(i)
+                    element.classList.add("played")
+                }
+                
             })
         });
     }
@@ -67,11 +72,29 @@ const gameboard = (() =>{
     function getBoardValue(index){
         return board[index]
     }
+
+    function setBoardValue(index, value){
+        board[index] = value;
+    }
     return {initialize, getBoardValue};
 })();
 
 const gameController = (()=>{
-    return{}
+
+    players = [];
+
+    function setPlayers(player){
+        players.push(player)
+    }
+    function handleClick(){
+
+    }
+    return{setPlayers}
 })()
+
+playerOne = playerFactory('Ryan', 'X');
+gameController.setPlayers(playerOne);
+playerTwo = playerFactory('Bob', 'O');
+gameController.setPlayers(playerTwo);
 
 gameboard.initialize();
