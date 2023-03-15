@@ -8,6 +8,14 @@
     gap: 25px;
 }
 
+#player-one-name{
+    color: blue;
+}
+
+#player-two-name{
+    color: red;
+}
+
 .square {
     height: 100px;
     width: 100px;

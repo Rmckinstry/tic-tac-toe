@@ -8,6 +8,7 @@ const gameboard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
   function initializeBoard() {
+    board = ["", "", "", "", "", "", "", "", ""];
     const gameContainer = document.getElementById("container");
     const winnerContainer = document.getElementById("winner-container");
 
@@ -88,6 +89,13 @@ const gameboard = (() => {
         }
       });
     });
+
+    const resetButton = document.getElementById("reset-btn");
+    resetButton.addEventListener("click", () => {
+      gameContainer.replaceChildren();
+      winnerContainer.replaceChildren();
+      gameController.reset();
+    })
   }
 
   function getBoardValue(index) {
@@ -140,6 +148,11 @@ const gameController = (() => {
   function startGame() {
     let playerOne = playerFactory(prompt('Enter Player One Name:'), 'X', 1)
     let playerTwo = playerFactory(prompt('Enter Player Two Name:'), 'O', 2)
+
+    // checks if prompts are skipped, adds defaults
+    playerOne.name = playerOne.name === null ? 'Player One' : playerOne.name;
+    playerTwo.name = playerTwo.name === null ? 'Player Two' : playerTwo.name;
+
 
     setPlayers(playerOne);
     setPlayers(playerTwo);
@@ -196,7 +209,20 @@ const gameController = (() => {
     return winState.winDetected == false && winState.tieDetected == false;
   }
 
-  return { getPlayers, getCurrentPlayer, startGame, handleClick, canPlay };
+  function reset(){
+    players = [];
+    currentPlayer = null;
+
+    winState = {
+      winDetected: false,
+      tieDetected: false,
+      winner: '',
+    }
+
+    startGame();
+  }
+
+  return { getPlayers, getCurrentPlayer, startGame, handleClick, canPlay, reset };
 })();
 
 gameController.startGame();
