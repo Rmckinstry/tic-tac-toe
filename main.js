@@ -21,39 +21,30 @@ const gameboard = (() => {
 
     const squareOne = document.createElement("div");
     squareOne.classList.add("square");
-    squareOne.setAttribute("id", "squareOne");
 
     const squareTwo = document.createElement("div");
     squareTwo.classList.add("square");
-    squareTwo.setAttribute("id", "squareTwo");
 
     const squareThree = document.createElement("div");
     squareThree.classList.add("square");
-    squareThree.setAttribute("id", "squareThree");
 
     const squareFour = document.createElement("div");
     squareFour.classList.add("square");
-    squareFour.setAttribute("id", "squareFour");
 
     const squareFive = document.createElement("div");
     squareFive.classList.add("square");
-    squareFive.setAttribute("id", "squareFive");
 
     const squareSix = document.createElement("div");
     squareSix.classList.add("square");
-    squareSix.setAttribute("id", "squareSix");
 
     const squareSeven = document.createElement("div");
     squareSeven.classList.add("square");
-    squareSeven.setAttribute("id", "squareSeven");
 
     const squareEight = document.createElement("div");
     squareEight.classList.add("square");
-    squareEight.setAttribute("id", "squareEight");
 
     const squareNine = document.createElement("div");
     squareNine.classList.add("square");
-    squareNine.setAttribute("id", "squareNine");
 
     gameContainer.appendChild(squareOne);
     gameContainer.appendChild(squareTwo);
@@ -78,6 +69,8 @@ const gameboard = (() => {
           if (state.winDetected){
             const winner = document.createElement("p");
             winner.textContent = `${state.winner["name"]} has won the game!`
+            winner.classList.add(`${gameController.getCurrentPlayer()["marker"]}`);
+            winner.classList.add("winner-text")
             winnerContainer.appendChild(winner)
           }
           else if (state.tieDetected){
