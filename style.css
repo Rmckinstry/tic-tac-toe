@@ -1,35 +1,40 @@
-#container{
+#container {
     display: grid;
     grid-template-columns: 100px 100px 100px;
 }
 
-#players-container{
+#players-container {
     display: flex;
     gap: 25px;
 }
 
-.square{
+.square {
     height: 100px;
     width: 100px;
 
     border-style: solid;
     border-color: black;
     border-width: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 64px;
 }
 
-.square:hover{
+.square:hover {
     cursor: pointer;
-    background-color: rgb(255, 126, 126);
 }
 
-.played{
-    background-color: lightgreen;
+.X{
+    color: blue;
 }
 
-.played:hover{
-    background-color: darkgreen;
+.O{
+    color: red;
 }
 
-.player-title{
+.player-title {
     font-weight: bold;
 }

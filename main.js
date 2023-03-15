@@ -70,7 +70,7 @@ const gameboard = (() => {
         if (getBoardValue(i) === "") {
           setBoardValue(i, gameController.getCurrentPlayer()["marker"]);
           element.textContent = getBoardValue(i);
-          element.classList.add("played");
+          element.classList.add(`${gameController.getCurrentPlayer()["marker"]}`);
 
           // let game controller know when a square has succesfully been clicked
           let gameWon = gameController.handleClick(board);
