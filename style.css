@@ -1,0 +1,105 @@
+/* elements */
+body{
+    font-family: 'Play', sans-serif;
+}
+h1{
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: #606c38;
+
+    margin: 15px;
+}
+
+button{
+    width: 150px;
+    height: 50px;
+
+    border-color: #2B4162;
+
+    background-color: #f2e8cf;
+    color: #606c38;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button:hover{
+    cursor: pointer;
+    border-color: #bc4749;
+    transform: scale(1.1);
+}
+
+/* ids */
+
+#game-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 125px 125px 125px;
+
+}
+
+#players-container {
+    display: flex;
+    gap: 25px;
+}
+
+#player-one-name{
+    color: #2B4162;
+}
+
+#player-two-name{
+    color: #bc4749;
+}
+
+#winner-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* classes */
+
+.square {
+    height: 125px;
+    width: 125px;
+
+    border-style: solid;
+    border-color: #77867F;
+    border-width: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 64px;
+    font-weight: bold;
+
+    background-color: #f2e8cf;
+}
+
+.square:hover {
+    cursor: pointer;
+}
+
+.X{
+    color: #2B4162;
+}
+
+.O{
+    color: #bc4749;
+}
+
+.player-title {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.winner-text{
+    font-weight: 700;
+}
