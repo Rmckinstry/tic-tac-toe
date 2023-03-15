@@ -67,16 +67,13 @@ const gameboard = (() => {
     gameContainer.childNodes.forEach((element, i) => {
       element.addEventListener("click", () => {
         // if index of gameboard is empty, assign the value to the gameboard and visually represent
-        if (getBoardValue(i) === "") {
+        if (getBoardValue(i) === "" && gameController.canPlay()) {
           setBoardValue(i, gameController.getCurrentPlayer()["marker"]);
           element.textContent = getBoardValue(i);
           element.classList.add(`${gameController.getCurrentPlayer()["marker"]}`);
 
           // let game controller know when a square has succesfully been clicked
-          let gameWon = gameController.handleClick(board);
-
-          if (gameWon) {
-          }
+          let state = gameController.handleClick(board);
         }
       });
     });
@@ -95,6 +92,12 @@ const gameboard = (() => {
 const gameController = (() => {
   let players = [];
   let currentPlayer = null;
+
+  let winState = {
+    winDetected: false,
+    tieDetected: false,
+    winner: '',
+  }
 
 //   winning combinations (values are index based so for a real human grid +1 on the number)
   const winningCombinations = [
@@ -130,16 +133,30 @@ const gameController = (() => {
   function handleClick(board) {
     let winDetected = checkWinStatus(board, winningCombinations);
 
-    console.log(winDetected);
     if (winDetected) {
+      // a player has won
         console.log(`${currentPlayer.name} won!`)
+
+        winState.winner = currentPlayer;
+        winState.winDetected = true;
     }
     else{
-      // checks playerID of current player, assigns to the other player in arrays
-        currentPlayer = currentPlayer.playerID == 1 ? players[1] : players[0];  
+      // check for tie
+      if (checkTieStatus(board)) {
+        // there is a tie
+        winState.tieDetected = true;
+      } else {
+        // no tie && no winner, keep playing
+        winState.winDetected = false;
+        winState.tieDetected = false;
+        winState.winner = '';
+        // checks playerID of current player, assigns to the other player in arrays
+        currentPlayer = currentPlayer.playerID == 1 ? players[1] : players[0];
+      }
+      
     }
 
-    return winDetected;
+    return winState;
   }
 
   function checkWinStatus(currentBoard, winningCombinations) {
@@ -155,7 +172,16 @@ const gameController = (() => {
     return (winningCombinations.some(checkCombo));
   }
 
-  return { setPlayers, getPlayers, getCurrentPlayer, startGame, handleClick };
+  function checkTieStatus(currentBoard){
+    return currentBoard.every((element)=> element !== '')
+  }
+
+  function canPlay(){
+    console.log(winState)
+    return winState.winDetected == false && winState.tieDetected == false;
+  }
+
+  return { setPlayers, getPlayers, getCurrentPlayer, startGame, handleClick, canPlay };
 })();
 
 let playerOne = playerFactory("Ryan", "X", 1);
