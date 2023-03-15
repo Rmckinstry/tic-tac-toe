@@ -1,3 +1,4 @@
+/* elements */
 body{
     font-family: 'Play', sans-serif;
 }
@@ -27,6 +28,8 @@ button:hover{
     border-color: #bc4749;
     transform: scale(1.1);
 }
+
+/* ids */
 
 #game-container{
     display: flex;
@@ -59,6 +62,8 @@ button:hover{
     align-items: center;
     justify-content: center;
 }
+
+/* classes */
 
 .square {
     height: 125px;

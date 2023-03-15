@@ -8,6 +8,7 @@ const gameboard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
   function initializeBoard() {
+    // re initalizing board here to account for reset being hit
     board = ["", "", "", "", "", "", "", "", ""];
     const gameContainer = document.getElementById("container");
     const winnerContainer = document.getElementById("winner-container");
@@ -67,6 +68,7 @@ const gameboard = (() => {
           // let game controller know when a square has succesfully been clicked
           let state = gameController.handleClick(board);
           if (state.winDetected){
+            // adding winner message
             const winner = document.createElement("p");
             winner.textContent = `${state.winner["name"]} has won the game!`
             winner.classList.add(`${gameController.getCurrentPlayer()["marker"]}`);
@@ -85,6 +87,7 @@ const gameboard = (() => {
 
     const resetButton = document.getElementById("reset-btn");
     resetButton.addEventListener("click", () => {
+      // resets game container & winner container div to no child elements
       gameContainer.replaceChildren();
       winnerContainer.replaceChildren();
       gameController.reset();
@@ -150,6 +153,7 @@ const gameController = (() => {
     setPlayers(playerOne);
     setPlayers(playerTwo);
     
+    // sets current player by default to player 1
     currentPlayer = players[0];
 
     gameboard.initializeBoard();
