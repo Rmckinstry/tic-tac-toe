@@ -127,7 +127,15 @@ const gameController = (() => {
   }
 
   function startGame() {
+    let playerOne = playerFactory(prompt('Enter Player One Name:'), 'X', 1)
+    let playerTwo = playerFactory(prompt('Enter Player Two Name:'), 'O', 2)
+
+    setPlayers(playerOne);
+    setPlayers(playerTwo);
+    
     currentPlayer = players[0];
+
+    gameboard.initializeBoard();
   }
 
   function handleClick(board) {
@@ -135,8 +143,6 @@ const gameController = (() => {
 
     if (winDetected) {
       // a player has won
-        console.log(`${currentPlayer.name} won!`)
-
         winState.winner = currentPlayer;
         winState.winDetected = true;
     }
@@ -155,7 +161,6 @@ const gameController = (() => {
       }
       
     }
-
     return winState;
   }
 
@@ -177,17 +182,10 @@ const gameController = (() => {
   }
 
   function canPlay(){
-    console.log(winState)
     return winState.winDetected == false && winState.tieDetected == false;
   }
 
-  return { setPlayers, getPlayers, getCurrentPlayer, startGame, handleClick, canPlay };
+  return { getPlayers, getCurrentPlayer, startGame, handleClick, canPlay };
 })();
 
-let playerOne = playerFactory("Ryan", "X", 1);
-gameController.setPlayers(playerOne);
-let playerTwo = playerFactory("Bob", "O", 2);
-gameController.setPlayers(playerTwo);
-
 gameController.startGame();
-gameboard.initializeBoard();
