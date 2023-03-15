@@ -9,7 +9,7 @@ const gameboard = (() => {
 
   function initializeBoard() {
     const gameContainer = document.getElementById("container");
-    const infoContainer = document.getElementById("info-container");
+    const winnerContainer = document.getElementById("winner-container");
 
     const playerOneName = document.getElementById('player-one-name');
     const playerTwoName = document.getElementById('player-two-name');
@@ -74,6 +74,17 @@ const gameboard = (() => {
 
           // let game controller know when a square has succesfully been clicked
           let state = gameController.handleClick(board);
+          if (state.winDetected){
+            const winner = document.createElement("p");
+            winner.textContent = `${state.winner["name"]} has won the game!`
+            winnerContainer.appendChild(winner)
+          }
+          else if (state.tieDetected){
+            const winner = document.createElement("p");
+            winner.textContent = "The game has ended in a tie!"
+            winnerContainer.appendChild(winner)
+          }
+
         }
       });
     });
